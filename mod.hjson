@@ -1,0 +1,10 @@
+{
+    name: experience
+    displayName: experience
+    author: bendn
+    description: for [accent]plague
+    version: 1.0
+    minGameVersion: 126.2
+    dependencies: [ ]
+    hidden: true
+}
