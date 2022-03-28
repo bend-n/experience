@@ -1,8 +1,8 @@
-require("miningai.js");
-require("vars.js")
-const ui = require("ui.js");
+let vars = require("vars")
+let ui = require("ui")
+let miningai = require("miningai")
 
-Log.info("WAVES HANDS WILDLY IN AIR!");
+Log.info("hi werld");
 
 function check_mats(check_items, maxvalue) {
 	let current_items = Vars.player.team().items();
@@ -17,8 +17,7 @@ function check_mats(check_items, maxvalue) {
 }
 
 function place_graphite_presses() {
-	Vars.ui.hudfrag.showToast("attempting to place graphite");
-	if (Vars.player.team() == Team.purple && !has_created_graphite && check_mats([Items.copper, Items.lead], [12375, 4950])) {
+	if (Vars.player.team() == Team.purple && !vars.has_created_graphite && check_mats([Items.copper, Items.lead], [12375, 4950])) {
 		print("all set to place grap");
 		let placed = 0;
 		for (let x = 0; x < 200; x += 2) {
@@ -29,7 +28,7 @@ function place_graphite_presses() {
 					Vars.player.unit().addBuild(buildplan);
 					placed++;
 					if (placed > 164) {
-						has_created_graphite = true;
+						vars.has_created_graphite = true;
 						return;
 					}
 				}
@@ -38,54 +37,53 @@ function place_graphite_presses() {
 	}
 }
 
-function check_ai() { // ai shamelessly copied from pvpnotifs, to a extent
-	if (playerai && Vars.player.unit() && Vars.player.unit().type) {
+function check_ai() {
+	if (vars.playerai && Vars.player.unit() && Vars.player.unit().type) {
 		let base = Math.min(Vars.player.team().items().get(Items.copper), Vars.player.team().items().get(Items.lead));
 		base = Math.min(base, base, Vars.player.team().items().get(Items.coal));
 
-		if ((base < 1000 && playerai instanceof BuilderAI) || Vars.player.unit().type.buildSpeed <= 0) {
-			playerai = playerMiningAI;
-		} else if (base >= 1000) {
+		if ((base < 1000 && vars.playerai instanceof BuilderAI) || Vars.player.unit().type.buildSpeed <= 0) {
+			vars.playerai = miningai.playerMiningAI;
+		} else {
 			fake_buildpath();
 		}
-		if (playerai == playerMiningAI) {
-			playerai.unitS(Vars.player.unit());
-		} else {
-			playerai.unit(Vars.player.unit());
+		if (vars.playerai != true) {
+			if (vars.playerai == miningai.playerMiningAI) {
+				vars.playerai.unitS(Vars.player.unit());
+			} else {
+				vars.playerai.unit(Vars.player.unit());
+			}
+			vars.playerai.updateUnit();
 		}
-		playerai.updateUnit();
 	}
 }
 
 function fake_buildpath() {
-	let build_plan = Vars.player.unit().plans.first;
-	if (build_plan != null) {
+	if (Vars.player.unit().plans.size != 0) {
+		let build_plan = Vars.player.unit().plans.first();
 		Vars.player.unit().approach(Tmp.v1.set(build_plan).sub(Vars.player));
-	} else if (playerai != playerMiningAI) {
-		playerai = new BuilderAI();
+	} else if (vars.playerai != miningai.playerMiningAI) {
+		vars.playerai = new BuilderAI();
 	}
 }
 
 Events.on(WorldLoadEvent, event => {
-	has_created_graphite = false;
+	vars.has_created_graphite = false;
 });
 
 
-Events.on(ClientLoadEvent, event => {
-	/*
-		print("knock wood")
-		if (Vars.player.name != 'yus') { // smh drm against dumb people
-			Core.app.exit()
-			while (true) {}
-		}
-	*/
+Events.on(ClientLoadEvent, event => { // do not modify or else i sue you	
+	print("client load?????")
+	// /*
+	if (Vars.player.name != 'yus') { // do not remove this code if you remove this code the game will break
+		Core.app.exit()
+		while (true) {} // how
+	}
+	// */
 	ui.build_ui();
-	print("sheduling graphite press placement");
-	Timer.schedule(() => {
-		place_graphite_presses();
-	}, 5, 5);
 });
 
 Events.run(Trigger.update, () => {
+	place_graphite_presses();
 	check_ai();
 });

@@ -3,7 +3,7 @@
     displayName: experience
     author: "[yellow]bendn"
     repo: "bendnuts/experience"
-    description: "for [accent]plague"
+    description: "for [accent]plague\n\n[slate]i[#78858e]t [#808a8c]i[#888f8a]s [#909488]a [#989986]c[#a09e84]o[#a8a382]o[#b0a880]l [#b8ad7e]m[#c0b27c]o[accent]d"
     version: 1.0
     minGameVersion: 126.2
     dependencies: [ ]

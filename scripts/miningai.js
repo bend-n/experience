@@ -1,4 +1,4 @@
-export var playerMiningAI = extend(AIController, {
+let MiningAI = extend(AIController, {
     // author: xeloboyo
     mining: true,
     targetItem: null,
@@ -24,7 +24,7 @@ export var playerMiningAI = extend(AIController, {
                 // let mineItems = unit.team.data().mineItems;
                 let mineItems = Seq.with(Items.copper, Items.lead, Items.coal, Items.titanium, Items.thorium);
 
-                this.targetItem = mineItems.min(boolf(i => Vars.indexer.hasOre(i) && unit.canMine(i)), floatf(i => core.items.get(i) - jot.orePriority(i)));
+                this.targetItem = mineItems.min(boolf(i => Vars.indexer.hasOre(i) && unit.canMine(i)), floatf(i => core.items.get(i) - orePriority(i)));
 
 
             }
@@ -78,3 +78,29 @@ export var playerMiningAI = extend(AIController, {
         }
     }
 });
+
+function orePriority(item) {
+    if (item == Items.copper) {
+        return 900;
+    }
+    if (item == Items.lead) {
+        return 850;
+    }
+    if (item == Items.sand) {
+        return 600;
+    }
+    if (item == Items.coal) {
+        return 200;
+    }
+    if (item == Items.titanium) {
+        return 100;
+    }
+    if (item == Items.thorium) {
+        return 0;
+    }
+    return 0;
+}
+
+module.exports = {
+    playerMiningAI: MiningAI
+}

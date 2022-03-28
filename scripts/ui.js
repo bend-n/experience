@@ -1,15 +1,20 @@
-require("vars.js")
+let vars = require("vars")
 
-export function build_ui() {
-	print("starting ui build...");
-	Vars.ui.hudGroup.fill(t => {
-		let togglestyle = Styles.clearToggleTransi;
-		t.button(Icon.units, togglestyle, () => {
-			if (playerai == null) {
-				playerai = true
-			} else {
-				playerai = null
-			}
-		}).update(b => b.setChecked(playerai)).width(26).height(26).name("autoxp").tooltip("toggle automatic xp farm");
-	})
+function build_ui() {
+    print("starting ui build...");
+    Vars.ui.hudGroup.fill(cons(t => {
+        let togglestyle = Styles.clearToggleTransi;
+        t.button(Icon.units, togglestyle, () => {
+            if (vars.playerai == null) {
+                vars.playerai = true;
+            } else {
+                vars.playerai = null;
+            }
+        }).update(b => b.setChecked(!!vars.playerai)).width(46).height(46).name("autoxp").tooltip("toggle automatic xp farm");
+    }));
+}
+
+
+module.exports = {
+    build_ui: build_ui
 }
