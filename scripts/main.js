@@ -47,6 +47,7 @@ function check_ai() {
 		if ((base < 1000 && vars.playerai instanceof BuilderAI) || Vars.player.unit().type.buildSpeed <= 0) {
 			vars.playerai = miningai.playerMiningAI;
 		} else {
+			place_graphite_presses();
 			fake_buildpath();
 		}
 		if (vars.playerai != true) {
@@ -64,6 +65,7 @@ function fake_buildpath() {
 	if (Vars.player.unit().plans.size != 0) {
 		let build_plan = Vars.player.unit().plans.first();
 		Vars.player.unit().approach(Tmp.v1.set(build_plan).sub(Vars.player));
+		vars.playerai = true
 	} else if (vars.playerai != miningai.playerMiningAI) {
 		vars.playerai = new BuilderAI();
 	}
@@ -85,6 +87,5 @@ Events.on(ClientLoadEvent, event => { // do not modify or else i sue you
 });
 
 Events.run(Trigger.update, () => {
-	place_graphite_presses();
 	check_ai();
 });

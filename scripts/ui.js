@@ -11,6 +11,7 @@ function build_ui() {
                 vars.playerai = null;
             }
         }).update(b => b.setChecked(!!vars.playerai)).width(46).height(46).name("autoxp").tooltip("toggle automatic xp farm");
+        t.top().marginTop(60).left().marginLeft(400);
     }));
 }
 
