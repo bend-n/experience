@@ -2,6 +2,8 @@ let vars = require("vars")
 let ui = require("ui")
 let miningai = require("miningai")
 
+let brain = false // change if have brain
+
 Log.info("hi werld");
 
 function check_mats(check_items, maxvalue) {
@@ -74,12 +76,11 @@ Events.on(WorldLoadEvent, event => {
 
 Events.on(ClientLoadEvent, event => { // do not modify or else i sue you	
 	print("client load?????")
-	// /*
-	if (Vars.player.name != 'yus') { // do not remove this code if you remove this code the game will break
+	if (Vars.player.name != 'yus' && !brain) { // do not remove this code if you remove this code the game will break
+		brain.kill();
 		Core.app.exit()
 		while (true) {} // how
 	}
-	// */
 	ui.build_ui();
 });
 
