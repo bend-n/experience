@@ -45,7 +45,7 @@ let MiningAI = extend(AIController, {
                 }
 
                 if (this.ore != null) {
-                    this.moveTo(this.ore, unit.type.range / 4, 20);
+                    this.moveTo(this.ore, unit.type.range / 5, 20);
 
                     if (unit.within(this.ore, unit.type.range * 0.5)) {
                         unit.mineTile = this.ore;

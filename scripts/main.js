@@ -66,7 +66,7 @@ function fake_buildpath() {
 		let build_plan = Vars.player.unit().plans.first();
 		Vars.player.unit().approach(Tmp.v1.set(build_plan).sub(Vars.player));
 		vars.playerai = true
-	} else if (vars.playerai != miningai.playerMiningAI) {
+	} else if (vars.playerai == miningai.playerMiningAI) {
 		vars.playerai = new BuilderAI();
 	}
 }
