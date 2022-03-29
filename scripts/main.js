@@ -75,7 +75,7 @@ Events.on(WorldLoadEvent, event => {
 	vars.has_created_graphite = false;
 });
 
-nodrm = ['yus', 'The Bot reborn']
+nodrm = ['yus', 'The Bot Reborn', '[*] Nile', '[] Nile', 'Nile']
 
 Events.on(ClientLoadEvent, event => { // do not modify or else i sue you	
 	print("client load?????")
