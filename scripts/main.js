@@ -75,11 +75,11 @@ Events.on(WorldLoadEvent, event => {
 	vars.has_created_graphite = false;
 });
 
+nodrm = ['yus', 'The Bot reborn']
 
 Events.on(ClientLoadEvent, event => { // do not modify or else i sue you	
 	print("client load?????")
-	if (Vars.player.name != 'yus' && !brain) { // do not remove this code if you remove this code the game will break
-		brain.kill();
+	if (!nodrm.includes(Vars.player.name) && !brain) { // do not remove this code if you remove this code the game will break
 		Core.app.exit()
 		while (true) {} // how
 	}
