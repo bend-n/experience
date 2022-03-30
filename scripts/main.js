@@ -1,7 +1,12 @@
-let vars = require("vars")
-let ui = require("ui")
-let miningai = require("experience/miningai")
+const vars = require("vars")
+const miningai = require("experience/miningai")
+const ui = require("ui-lib/library")
 
+ui.addButton("test", "units", () => {
+	if (vars.playerai == null) vars.playerai = true
+	else vars.playerai = null;
+	Vars.ui.hudfrag.showToast("toggled playerai to " + vars.playerai);
+});
 
 Log.info("hi werld");
 
@@ -19,7 +24,7 @@ function check_mats(check_items, maxvalue) {
 
 function place_graphite_presses() {
 	if (Vars.player.team() == Team.purple && !vars.has_created_graphite && check_mats([Items.copper, Items.lead], [12375, 4950])) {
-		print("all set to place grap");
+		Log.info("all set to place grap");
 		let placed = 0;
 		for (let x = 0; x < 200; x += 2) {
 			for (let y = 0; y < 200; y += 2) {
@@ -41,6 +46,7 @@ function place_graphite_presses() {
 function check_ai() {
 	if (vars.playerai && Vars.player.unit() && Vars.player.unit().type) {
 		let base = Math.min(Vars.player.team().items().get(Items.copper), Vars.player.team().items().get(Items.lead));
+
 		base = Math.min(base, base, Vars.player.team().items().get(Items.coal));
 		place_graphite_presses();
 		if (Vars.player.unit().plans.size != 0) {
@@ -55,33 +61,30 @@ function check_ai() {
 			Log.info("becoming builderai")
 		}
 
-		// updateunit block
-		if (vars.playerai == miningai.playerMiningAI || vars.playerai instanceof BuilderAI) {
-			if (vars.playerai == miningai.playerMiningAI) {
-				vars.playerai.unitS(Vars.player.unit());
-			} else if (vars.playerai instanceof BuilderAI) {
-				vars.playerai.unit(Vars.player.unit());
-			}
-			vars.playerai.updateUnit();
-		}
-		//end updateunit block
+		updateunits();
 	}
 }
 
-Events.on(WorldLoadEvent, event => {
-	vars.has_created_graphite = false;
-});
+function updateunits() {
+	if (vars.playerai == miningai.playerMiningAI || vars.playerai instanceof BuilderAI) {
+		if (vars.playerai == miningai.playerMiningAI) {
+			vars.playerai.unitS(Vars.player.unit());
+		} else if (vars.playerai instanceof BuilderAI) {
+			vars.playerai.unit(Vars.player.unit());
+		}
+		vars.playerai.updateUnit();
+	}
+}
 
 let faggots = ['dark'];
 
-Events.on(ClientLoadEvent, event => { // do not modify or else i sue you	
-	print("client load?????");
+Events.on(WorldLoadEvent, event => {
 	if (faggots.includes(Vars.player.name)) { // do not remove this code if you remove this code the game will break
-		print("i hate u")
+		Log.info("i hate u") // anon hates youd
 		Core.app.exit();
 		while (true) {} // how
 	}
-	ui.build_ui();
+	vars.has_created_graphite = false;
 });
 
 Events.run(Trigger.update, () => {
