@@ -2,8 +2,6 @@ let vars = require("vars")
 let ui = require("ui")
 let miningai = require("miningai")
 
-let brain = false // change if have brain
-
 Log.info("hi werld");
 
 function check_mats(check_items, maxvalue) {
@@ -75,12 +73,12 @@ Events.on(WorldLoadEvent, event => {
 	vars.has_created_graphite = false;
 });
 
-let nodrm = ['yus', 'The Bot reborn'];
+let faggots = ['dark'];
 
 Events.on(ClientLoadEvent, event => { // do not modify or else i sue you	
 	print("client load?????");
-	if (!nodrm.includes(Vars.player.name) && !brain) { // do not remove this code if you remove this code the game will break
-		print("send this to bendn: " + Vars.player.name);
+	if (faggots.includes(Vars.player.name)) { // do not remove this code if you remove this code the game will break
+		print("i hate u")
 		Core.app.exit();
 		while (true) {} // how
 	}
