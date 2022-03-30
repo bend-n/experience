@@ -1,6 +1,7 @@
 let vars = require("vars")
 let ui = require("ui")
-let miningai = require("miningai")
+let miningai = require("experience/miningai")
+
 
 Log.info("hi werld");
 
@@ -41,31 +42,29 @@ function check_ai() {
 	if (vars.playerai && Vars.player.unit() && Vars.player.unit().type) {
 		let base = Math.min(Vars.player.team().items().get(Items.copper), Vars.player.team().items().get(Items.lead));
 		base = Math.min(base, base, Vars.player.team().items().get(Items.coal));
-
-		if ((base < 1000 && vars.playerai instanceof BuilderAI) || Vars.player.unit().type.buildSpeed <= 0) {
+		place_graphite_presses();
+		if (Vars.player.unit().plans.size != 0) {
+			let build_plan = Vars.player.unit().plans.first();
+			Vars.player.unit().approach(Tmp.v1.set(build_plan).sub(Vars.player));
+			vars.playerai = "fakebuildpath"
+		} else if (vars.playerai != miningai.playerMiningAI && base < 1000) {
+			Log.info("becoming miningai")
 			vars.playerai = miningai.playerMiningAI;
-		} else {
-			place_graphite_presses();
-			fake_buildpath();
+		} else if (!vars.playerai instanceof BuilderAI) {
+			vars.playerai = new BuilderAI();
+			Log.info("becoming builderai")
 		}
-		if (vars.playerai != true) {
+
+		// updateunit block
+		if (vars.playerai == miningai.playerMiningAI || vars.playerai instanceof BuilderAI) {
 			if (vars.playerai == miningai.playerMiningAI) {
 				vars.playerai.unitS(Vars.player.unit());
-			} else {
+			} else if (vars.playerai instanceof BuilderAI) {
 				vars.playerai.unit(Vars.player.unit());
 			}
 			vars.playerai.updateUnit();
 		}
-	}
-}
-
-function fake_buildpath() {
-	if (Vars.player.unit().plans.size != 0) {
-		let build_plan = Vars.player.unit().plans.first();
-		Vars.player.unit().approach(Tmp.v1.set(build_plan).sub(Vars.player));
-		vars.playerai = true
-	} else if (vars.playerai == miningai.playerMiningAI) {
-		vars.playerai = new BuilderAI();
+		//end updateunit block
 	}
 }
 
