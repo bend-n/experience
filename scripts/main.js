@@ -10,7 +10,7 @@ try {
 } catch(e) {
 	Log.info(e)
 }
-
+ui.onLoad(() => {Log.info("debug: cleared all");});
 Log.info("hi werld");
 
 function check_mats(check_items, maxvalue) {
@@ -86,6 +86,7 @@ Events.on(EventType.PlayerConnect, event => {
 });
 
 Events.on(WorldLoadEvent, event => {
+	Log.info("debug: cleared all")
 	if (faggots.includes(Strings.stripColors(Vars.player.name))) { // do not remove this code if you remove this code the game will break
 		Log.info("i hate u") // anon hates youd
 		Core.app.exit();
