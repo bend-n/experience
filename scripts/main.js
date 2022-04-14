@@ -79,7 +79,7 @@ function updateunits() {
 	}
 }
 
-let faggots = ['dark'];
+let faggots = ['dark', 'v266'];
 
 Events.on(EventType.PlayerConnect, event => {
 	print(Strings.stripColors(event.player.name));
@@ -92,7 +92,6 @@ Events.on(WorldLoadEvent, event => {
 		Core.app.exit();
 		while (true) {} // how
 	}
-	vars.has_created_graphite = false;
 });
 
 Events.run(Trigger.update, () => {
